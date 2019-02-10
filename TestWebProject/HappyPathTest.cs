@@ -4,26 +4,25 @@ using TestWebProject.wibdriver;
 
 namespace TestWebProject
 {
-	[TestClass]
-    public class HappyPathTest:BaseTest
-	{
+    [TestClass]
+    public class HappyPathTest : BaseTest
+    {
         //Test data
-        readonly string login = "testmail.2020";
-        readonly string password = "Asas432111";
-        readonly string invalidPassword = "asas432111";
-        readonly string address = "elenasinevich91@gmail.com";
+        const string login = "testmail.2020";
+        const string password = "Asas432111";
+        const string invalidPassword = "asas432111";
+        const string address = "elenasinevich91@gmail.com";
         readonly string subject = $"Test Mail {TestUtils.GetRandomSubjectNumber()}";
-        readonly string expectedTestBody = "Test Text";
+        const string expectedTestBody = "Test Text";
 
         [TestMethod]
-		public void TestSmokeEmail()
-		{
+        public void TestSmokeEmail()
+        {
             //Login to the mail.ru
             HomePage homePage = new HomePage();
-            homePage.Login(login, password);
+            InboxPage inboxPage = homePage.Login(login, password);
 
             //Assert, that the login is successful
-            InboxPage inboxPage = new InboxPage();
             inboxPage.ClickCreate();
 
             //Create a new mail 
@@ -34,11 +33,10 @@ namespace TestWebProject
             NavigationMenu navigationMenu = new NavigationMenu();
             DraftsPage draftsPage = navigationMenu.NavigateToDrafts();
 
-            //Verify, that the mail presents in ‘Drafts’ folder. 
-            draftsPage.ClickDraftEmail(subject);
+            //Open Draft Email on DraftsPage
+            emailPage = draftsPage.ClickDraftEmail(subject);
 
             //Verify the draft content (addressee, subject and body – should be the same) 
-            emailPage = new EmailPage();
             emailPage.CheckEmailFields(address, subject, expectedTestBody);
 
             //Send the mail
@@ -58,7 +56,7 @@ namespace TestWebProject
             sentPage.EmailContextClick(subject);
 
             //Log out
-            homePage = navigationMenu.LogOut();
+            navigationMenu.LogOut();
         }
 
         [TestMethod]
@@ -113,7 +111,6 @@ namespace TestWebProject
 
             //Login to the mail.ru 
             homePage.Login(login, password);
-            InboxPage inboxPage = new InboxPage();
         }
     }
 }

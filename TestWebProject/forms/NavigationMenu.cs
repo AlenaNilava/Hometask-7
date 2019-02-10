@@ -7,24 +7,21 @@ namespace TestWebProject.forms
     class NavigationMenu : BaseForm
     {
         private static readonly By NavigationLbl = By.XPath("//a[@data-mnemo='drafts']");
-        public NavigationMenu() : base(NavigationLbl, "Navigation Page")
-        {
-            PageFactory.InitElements(Browser.GetDriver(), this);
-        }
-
-        //[FindsBy(How = How.Name, Using = "newinfo[name]")]
-        //private IWebElement inboxMenuItem;
+        private readonly BaseElement recycleBinMenuItem = new BaseElement(By.XPath("//span[text()='Корзина']"));
 
         [FindsBy(How = How.XPath, Using = "//span[text()='Отправленные']")]
         private IWebElement sentMenuItem;
 
         [FindsBy(How = How.XPath, Using = "//*[@data-mnemo='drafts']")]
         private IWebElement draftsMenuItem;
-        
-        private readonly BaseElement recycleBinMenuItem = new BaseElement(By.XPath("//span[text()='Корзина']"));
 
         [FindsBy(How = How.XPath, Using = "//a[@id='PH_logoutLink']")]
         private IWebElement LogOffBtn;
+
+        public NavigationMenu() : base(NavigationLbl, "Navigation Page")
+        {
+            PageFactory.InitElements(Browser.GetDriver(), this);
+        }
 
         public DraftsPage NavigateToDrafts()
         {

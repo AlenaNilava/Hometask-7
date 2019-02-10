@@ -7,10 +7,6 @@ namespace TestWebProject.forms
     public class EmailPage : BaseForm
     {
         private static readonly By EmailToField = By.XPath("//textarea[@data-original-name='To']");
-        public EmailPage() : base(EmailToField, "Email Page")
-        {
-        }
-
         private readonly BaseElement addresseeField = new BaseElement(EmailToField);
         private readonly BaseElement subjectField = new BaseElement(By.XPath("//input[@name='Subject']"));
         private readonly BaseElement bodyTextFrame = new BaseElement(By.XPath("//iframe"));
@@ -21,6 +17,10 @@ namespace TestWebProject.forms
         private readonly BaseElement sentEmailAdressLbl = new BaseElement(By.XPath("(//span[text()='elenasinevich91@gmail.com'])[2]"));
         private readonly BaseElement sentEmailBodyTextLbl = new BaseElement(By.XPath("//body[@id='tinymce']//div[text()[contains(.,'Test Text')]]"));
 
+        public EmailPage() : base(EmailToField, "Email Page")
+        {
+        }
+        
         public void CreateDraftEmail(string address, string subject, string expectedTestBody)
         {
             addresseeField.SendKeys(address);
@@ -29,7 +29,7 @@ namespace TestWebProject.forms
             bodyTextField.SendKeys(expectedTestBody);
             Browser.GetDriver().SwitchTo().DefaultContent();
             saveBtn.Click();
-            draftEmailSavedLbl.WaitForIsVisible();
+            draftEmailSavedLbl.CheckForIsVisible();
         }
 
         public void CheckEmailFields(string address, string subject, string expectedTestBody)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -26,7 +27,7 @@ namespace TestWebProject.wibdriver
 
 		public string GetText()
 		{
-			this.WaitForIsVisible();
+			this.CheckForIsVisible();
 			return Browser.GetDriver().FindElement(this.Locator).Text;
 		}
 
@@ -44,11 +45,22 @@ namespace TestWebProject.wibdriver
 			return this.Element;
 		}
 
-		public void WaitForIsVisible()
+		public void CheckForIsVisible()
 		{
-			new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Browser.TimeoutForElement)).Until(ExpectedConditions.ElementIsVisible(this.Locator));
-            JSHighlight();
-		}
+            bool isVisible = false;
+            try
+            {
+                new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Browser.TimeoutForElement)).Until(ExpectedConditions.ElementIsVisible(this.Locator));
+                JSHighlight();
+                isVisible = true;
+            }
+            catch
+            {
+                Console.Out.WriteLine("Element {0} has not been displayed", this.Locator);
+                isVisible = false;
+            }
+            Assert.IsTrue(isVisible);
+        }
 
         public void WaitForNotVisible()
         {
@@ -67,13 +79,13 @@ namespace TestWebProject.wibdriver
 
 		public void Clear()
 		{
-            WaitForIsVisible();
+            CheckForIsVisible();
             Browser.GetDriver().FindElement(this.Locator).Clear();
         }
 
 		public void SendKeys(string text)
 		{
-            WaitForIsVisible();
+            CheckForIsVisible();
             Browser.GetDriver().FindElement(this.Locator).SendKeys(text);
         }
 
@@ -84,14 +96,14 @@ namespace TestWebProject.wibdriver
 
 		public void Click()
 		{
-			this.WaitForIsVisible();
+			this.CheckForIsVisible();
             TestUtils.WaitElementAvailable(this.Locator);
 			Browser.GetDriver().FindElement(this.Locator).Click();
 		}
 
 		public void JsClick()
 		{
-			this.WaitForIsVisible();
+			this.CheckForIsVisible();
 			IJavaScriptExecutor executor = (IJavaScriptExecutor)Browser.GetDriver();
 			executor.ExecuteScript("arguments[0].click();", this.GetElement());
 		}
