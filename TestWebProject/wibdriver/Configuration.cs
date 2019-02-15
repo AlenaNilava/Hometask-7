@@ -14,5 +14,7 @@ namespace TestWebProject.wibdriver
 		public static string Browser => GetEnviromentVar("Browser", "Firefox");
 
 		public static string StartUrl => GetEnviromentVar("StartUrl", "https://mail.ru/");
-	}
+
+        public static string RunWithHighlightForDebug => GetEnviromentVar("Highlight", "no");
+    }
 }

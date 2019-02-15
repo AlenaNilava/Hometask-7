@@ -16,7 +16,7 @@ namespace TestWebProject.forms
         
         public void CheckDeletedEmail(string subject)
         {
-            new BaseElement(By.XPath(String.Format(deletedEmailLblTemplate, subject))).CheckForIsVisible();
+            new BaseElement(By.XPath(String.Format(deletedEmailLblTemplate, subject))).WaitForElementIsVisible();
         }
     }
 }

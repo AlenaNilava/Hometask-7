@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 
 namespace TestWebProject.forms
 {
+    using TestWebProject.Entities;
     using TestWebProject.wibdriver;
     public class EmailPage : BaseForm
     {
@@ -16,20 +17,21 @@ namespace TestWebProject.forms
         private readonly BaseElement sendBtn = new BaseElement(By.XPath("(//div[@data-name='send'])[1]"));
         private readonly BaseElement sentEmailAdressLbl = new BaseElement(By.XPath("(//span[text()='elenasinevich91@gmail.com'])[2]"));
         private readonly BaseElement sentEmailBodyTextLbl = new BaseElement(By.XPath("//body[@id='tinymce']//div[text()[contains(.,'Test Text')]]"));
+        private static readonly By SentEmailVerificationText = By.ClassName("message-sent__title");
 
         public EmailPage() : base(EmailToField, "Email Page")
         {
         }
-        
-        public void CreateDraftEmail(string address, string subject, string expectedTestBody)
+
+        public void CreateDraftEmail(Email email)
         {
-            addresseeField.SendKeys(address);
-            subjectField.SendKeys(subject);
+            addresseeField.SendKeys(email.address);
+            subjectField.SendKeys(email.subject);
             Browser.GetDriver().SwitchTo().Frame(this.bodyTextFrame.GetElement());
-            bodyTextField.SendKeys(expectedTestBody);
+            bodyTextField.SendKeys(email.expectedTestBody);
             Browser.GetDriver().SwitchTo().DefaultContent();
             saveBtn.Click();
-            draftEmailSavedLbl.CheckForIsVisible();
+            draftEmailSavedLbl.WaitForElementIsVisible();
         }
 
         public void CheckEmailFields(string address, string subject, string expectedTestBody)
@@ -42,13 +44,31 @@ namespace TestWebProject.forms
 
             //Verify the draft body text is still the same
             Browser.GetDriver().SwitchTo().Frame(this.bodyTextFrame.GetElement());
-            Assert.IsTrue(sentEmailBodyTextLbl.GetText().Contains(expectedTestBody), "Body text is not as expected"); 
+            Assert.IsTrue(sentEmailBodyTextLbl.GetText().Contains(expectedTestBody), "Body text is not as expected");
             Browser.GetDriver().SwitchTo().DefaultContent();
         }
 
-        public void SendEmail()
+        public void ClickSendEmailButton()
         {
             sendBtn.Click();
+        }
+
+        public string GetAddress() => sentEmailAdressLbl.GetText();
+
+        public string GetSubject() => subjectField.GetAttribute("value");
+
+        public string GetMessage()
+        {
+            Browser.GetDriver().SwitchTo().Frame(this.bodyTextFrame.GetElement());
+            string message = sentEmailBodyTextLbl.GetText();
+            Browser.GetDriver().SwitchTo().DefaultContent();
+            return message;
+        }
+
+        public string GetVerificationMessage()
+        {
+            this.sendBtn.WaitForNotVisible();
+            return Browser.GetDriver().FindElement(SentEmailVerificationText).Text;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 
 namespace TestWebProject.forms
 {
+    using TestWebProject.Entities;
     using TestWebProject.wibdriver;
     public class DraftsPage : BaseForm
     {
@@ -14,16 +15,19 @@ namespace TestWebProject.forms
         {
         }
 
-        public EmailPage ClickDraftEmail(string subject)
+        public EmailPage ClickDraftEmail(Email email)
         {
-            new BaseElement(By.XPath(String.Format(draftEmailLblTemplate, subject))).Click();
+            new BaseElement(By.XPath(String.Format(draftEmailLblTemplate, email.subject))).Click();
             return new EmailPage();
         }
 
-        public void CheckDisappearedEmail(string subject)
+        public void WaitForEmailDisappearedBySubject(string subject)
         {
             new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForNotVisible();
         }
+
+        public bool IsEmailPresentBySubject(string subject) =>
+            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).Displayed;
 
     }
 }

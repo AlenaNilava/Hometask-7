@@ -1,6 +1,8 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Drawing.Imaging;
 
 namespace TestWebProject.wibdriver
 {
@@ -24,6 +26,11 @@ namespace TestWebProject.wibdriver
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(element));
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.ElementToBeClickable(element));
             }
+        }
+
+        public static void TakeScreenshot()
+        {
+            Browser.GetDriver().TakeScreenshot().SaveAsFile(GetRandomSubjectNumber() + ".Jpeg", ScreenshotImageFormat.Jpeg);
         }
     }
 }

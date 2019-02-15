@@ -18,9 +18,9 @@ namespace TestWebProject.forms
         {
         }
         
-        public void CheckSentEmail(string subject)
+        public void WaitForEmailinSentFolder(string subject)
         {
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).CheckForIsVisible();
+            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForElementIsVisible();
         }
 
         public void DeleteEmail(string subject)
@@ -38,6 +38,9 @@ namespace TestWebProject.forms
         {
             new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).ContextClick();
         }
+
+        public bool IsEmailPresentBySubject(string subject) =>
+            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).Displayed;
 
     }
 }

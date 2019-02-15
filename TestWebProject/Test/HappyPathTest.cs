@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestWebProject.Entities;
 using TestWebProject.forms;
 using TestWebProject.wibdriver;
 
@@ -12,48 +13,58 @@ namespace TestWebProject
         const string password = "Asas432111";
         const string invalidPassword = "asas432111";
         const string address = "elenasinevich91@gmail.com";
-        readonly string subject = $"Test Mail {TestUtils.GetRandomSubjectNumber()}";
+        static readonly string subject = $"Test Mail {TestUtils.GetRandomSubjectNumber()}";
         const string expectedTestBody = "Test Text";
+
+        User user = new User(login, password);
+        User invalidUser = new User(login, invalidPassword);
+        Email email = new Email(address, subject, expectedTestBody);
+
+
 
         [TestMethod]
         public void TestSmokeEmail()
         {
             //Login to the mail.ru
             HomePage homePage = new HomePage();
-            InboxPage inboxPage = homePage.Login(login, password);
+            InboxPage inboxPage = homePage.Login(user);
 
-            //Assert, that the login is successful
-            inboxPage.ClickCreate();
+            //Assert a user is logged in
+            Assert.IsTrue(inboxPage.IsSucessfullyLoggedIn(), "User is not logged in");
 
             //Create a new mail 
-            EmailPage emailPage = new EmailPage();
-            emailPage.CreateDraftEmail(address, subject, expectedTestBody);
+            EmailPage emailPage = inboxPage.ClickCreateNewMessageButton();
+            emailPage.CreateDraftEmail(email);
 
             //Navigate to DraftsPage
             NavigationMenu navigationMenu = new NavigationMenu();
             DraftsPage draftsPage = navigationMenu.NavigateToDrafts();
 
             //Open Draft Email on DraftsPage
-            emailPage = draftsPage.ClickDraftEmail(subject);
+            emailPage = draftsPage.ClickDraftEmail(email);
 
             //Verify the draft content (addressee, subject and body – should be the same) 
-            emailPage.CheckEmailFields(address, subject, expectedTestBody);
+            Assert.IsTrue(emailPage.GetAddress().Equals(address), "Address is wrong.");
+            Assert.IsTrue(emailPage.GetSubject().Equals(email.subject), "Message subject doesn't match");
+            Assert.IsTrue(emailPage.GetMessage().Contains(expectedTestBody), "Message is incorrect.");
 
             //Send the mail
-            emailPage.SendEmail();
+            emailPage.ClickSendEmailButton();
+
+            // Verify the email is sent message
+            //Assert.IsTrue(emailPage.GetVerificationMessage().Contains(ExpectedMessage));
 
             //Navigate to DraftsPage and verify, that the mail disappeared from ‘Drafts’ folder
             draftsPage = navigationMenu.NavigateToDrafts();
-            draftsPage.CheckDisappearedEmail(subject);
+            draftsPage.WaitForEmailDisappearedBySubject(email.subject);
+            Assert.IsFalse(draftsPage.IsEmailPresentBySubject(email.subject));
 
             //Navigate to SentPage
             SentPage sentPage = navigationMenu.NavigateToSent();
 
             //Verify, that the mail presents in ‘Sent’ folder. 
-            sentPage.CheckSentEmail(subject);
-
-            //Click Context menu of the first email
-            sentPage.EmailContextClick(subject);
+            sentPage.WaitForEmailinSentFolder(subject);
+            Assert.IsTrue(sentPage.IsEmailPresentBySubject(email.subject));
 
             //Log out
             navigationMenu.LogOut();
@@ -64,25 +75,25 @@ namespace TestWebProject
         {
             //Login to the mail.ru
             HomePage homePage = new HomePage();
-            homePage.Login(login, password);
+            homePage.Login(user);
 
             //Assert, that the login is successful
             InboxPage inboxPage = new InboxPage();
-            inboxPage.ClickCreate();
+            inboxPage.ClickCreateNewMessageButton();
 
             //Create a new mail 
             EmailPage emailPage = new EmailPage();
-            emailPage.CreateDraftEmail(address, subject, expectedTestBody);
+            emailPage.CreateDraftEmail(email);
 
             //Send the mail
-            emailPage.SendEmail();
+            emailPage.ClickSendEmailButton();
 
             //Navigate to SentPage
             NavigationMenu navigationMenu = new NavigationMenu();
             SentPage sentPage = navigationMenu.NavigateToSent();
 
             //Verify, that the mail presents in ‘Sent’ folder. 
-            sentPage.CheckSentEmail(subject);
+            sentPage.WaitForEmailinSentFolder(subject);
 
             //Delete the mail from Sent folder
             //sentPage.DeleteEmail(subject);
@@ -104,13 +115,21 @@ namespace TestWebProject
 
             //Login to the mail.ru with invalid password
             HomePage homePage = new HomePage();
-            homePage.Login(login, invalidPassword);
+            homePage.Login(invalidUser);
 
             //Verify, that red text message appears
             homePage.CheckValidationMessage(expectedValidationMessage);
 
             //Login to the mail.ru 
-            homePage.Login(login, password);
+            homePage.Login(user);
         }
     }
 }
+
+
+
+
+
+
+
+

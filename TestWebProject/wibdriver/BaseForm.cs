@@ -18,7 +18,7 @@ namespace TestWebProject.wibdriver
 		public void AssertIsOpen()
 		{
 			var label = new BaseElement(this.TitleLocator, this.title);
-			label.CheckForIsVisible();
+			label.WaitForElementIsVisible();
 		}
 
         public static string JsReturnTitle()

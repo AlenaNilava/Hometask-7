@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 
 namespace TestWebProject.forms
 {
+    using TestWebProject.Entities;
     using TestWebProject.wibdriver;
     public class HomePage : BaseForm
     {
@@ -16,12 +17,12 @@ namespace TestWebProject.forms
         {
         }
         
-        public InboxPage Login(string login, string password)
+        public InboxPage Login(User user)
         {
             loginField.Clear();
-            loginField.SendKeys(login);
+            loginField.SendKeys(user.login);
             passwordField.Clear();
-            passwordField.SendKeys(password);
+            passwordField.SendKeys(user.password);
             submitBtn.Click();
             return new InboxPage();
         }

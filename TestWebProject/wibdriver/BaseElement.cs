@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -27,7 +28,7 @@ namespace TestWebProject.wibdriver
 
 		public string GetText()
 		{
-			this.CheckForIsVisible();
+			this.WaitForElementIsVisible();
 			return Browser.GetDriver().FindElement(this.Locator).Text;
 		}
 
@@ -45,21 +46,22 @@ namespace TestWebProject.wibdriver
 			return this.Element;
 		}
 
-		public void CheckForIsVisible()
+		public void WaitForElementIsVisible()
 		{
-            bool isVisible = false;
             try
             {
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Browser.TimeoutForElement)).Until(ExpectedConditions.ElementIsVisible(this.Locator));
-                JSHighlight();
-                isVisible = true;
+
+                if (Configuration.RunWithHighlightForDebug.Equals("yes"))
+                {
+                    JSHighlight();
+                }
             }
             catch
             {
                 Console.Out.WriteLine("Element {0} has not been displayed", this.Locator);
-                isVisible = false;
+                TestUtils.TakeScreenshot();
             }
-            Assert.IsTrue(isVisible);
         }
 
         public void WaitForNotVisible()
@@ -79,13 +81,13 @@ namespace TestWebProject.wibdriver
 
 		public void Clear()
 		{
-            CheckForIsVisible();
+            WaitForElementIsVisible();
             Browser.GetDriver().FindElement(this.Locator).Clear();
         }
 
 		public void SendKeys(string text)
 		{
-            CheckForIsVisible();
+            WaitForElementIsVisible();
             Browser.GetDriver().FindElement(this.Locator).SendKeys(text);
         }
 
@@ -96,14 +98,14 @@ namespace TestWebProject.wibdriver
 
 		public void Click()
 		{
-			this.CheckForIsVisible();
+			this.WaitForElementIsVisible();
             TestUtils.WaitElementAvailable(this.Locator);
 			Browser.GetDriver().FindElement(this.Locator).Click();
 		}
 
 		public void JsClick()
 		{
-			this.CheckForIsVisible();
+			this.WaitForElementIsVisible();
 			IJavaScriptExecutor executor = (IJavaScriptExecutor)Browser.GetDriver();
 			executor.ExecuteScript("arguments[0].click();", this.GetElement());
 		}
@@ -116,13 +118,16 @@ namespace TestWebProject.wibdriver
             try
             {
                 executor.ExecuteScript(highlightJavascript, this.GetElement());
+                Thread.Sleep(400);
+                executor.ExecuteScript("arguments[0].setAttribute('style', arguments[1]);", this.GetElement(), "");
             }
             catch
             {
+                Console.Out.WriteLine("Element {0} wasn't able to be highlight", this.Locator);
             }
         }
 
-		public string GetAttribute(string attributeName)
+        public string GetAttribute(string attributeName)
 		{
             return Browser.GetDriver().FindElement(this.Locator).GetAttribute(attributeName);
         }
@@ -151,12 +156,26 @@ namespace TestWebProject.wibdriver
 			throw new NotImplementedException();
 		}
 
-		public string TagName { get; }
+        public bool Displayed
+        {
+            get
+            {
+                try
+                {
+                    return Browser.GetDriver().FindElement(Locator).Displayed;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public string TagName { get; }
 		public string Text { get; }
 		public bool Enabled { get; }
 		public bool Selected { get; }
 		public Point Location { get; }
 		public Size Size { get; }
-		public bool Displayed { get; }
 	}
 }
