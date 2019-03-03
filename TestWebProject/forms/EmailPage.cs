@@ -34,7 +34,7 @@
             draftEmailSavedLbl.WaitForElementIsVisible();
         }
 
-        public void CheckEmailFields(string address, string subject, string expectedTestBody)
+        public void WaitForEmailFields(string address, string subject, string expectedTestBody)
         {
             //Verify the draft addressee is still the same
             Assert.AreEqual(address, sentEmailAdressLbl.GetText(), "Email is not actual");
@@ -48,10 +48,7 @@
             Browser.GetDriver().SwitchTo().DefaultContent();
         }
 
-        public void ClickSendEmailButton()
-        {
-            sendBtn.Click();
-        }
+        public void ClickSendEmailButton() => sendBtn.Click();
 
         public string GetAddress() => sentEmailAdressLbl.GetText();
 

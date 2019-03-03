@@ -21,10 +21,7 @@
             return new EmailPage();
         }
 
-        public void WaitForEmailDisappearedBySubject(string subject)
-        {
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForNotVisible();
-        }
+        public void WaitForEmailDisappearedBySubject(string subject) => new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForNotVisible();
 
         public bool IsEmailPresentBySubject(string subject) =>
             new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).Displayed;

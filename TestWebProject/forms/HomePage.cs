@@ -27,10 +27,7 @@
             return new InboxPage();
         }
 
-        public void CheckValidationMessage(string expectedValidationMessage)
-        {
-            Assert.IsTrue(validationMessage.GetText().Contains(expectedValidationMessage), "Validation text is not as expected");
-        }
+        public void WaitForValidationMessage(string expectedValidationMessage) => Assert.IsTrue(validationMessage.GetText().Contains(expectedValidationMessage), "Validation text is not as expected");
 
     }
 }

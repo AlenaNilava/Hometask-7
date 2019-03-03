@@ -11,10 +11,7 @@
         public RecycleBinPage() : base(RecycleLbl, "Recycle Bin Page")
         {
         }
-        
-        public void CheckDeletedEmail(string subject)
-        {
-            new BaseElement(By.XPath(String.Format(deletedEmailLblTemplate, subject))).WaitForElementIsVisible();
-        }
+
+        public void WaitForDeletedEmail(string subject) => new BaseElement(By.XPath(String.Format(deletedEmailLblTemplate, subject))).WaitForElementIsVisible();
     }
 }

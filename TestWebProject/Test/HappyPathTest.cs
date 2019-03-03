@@ -76,15 +76,14 @@
 
             //Login to the mail.ru
             HomePage homePage = new HomePage();
-            homePage.Login(user);
+            InboxPage inboxPage = homePage.Login(user);
 
-            //Assert, that the login is successful
-            InboxPage inboxPage = new InboxPage();
-            inboxPage.ClickCreateNewMessageButton();
+            //Assert a user is logged in
+            Assert.IsTrue(inboxPage.IsSucessfullyLoggedIn(), "User is not logged in");
 
             //Create a new mail 
-            EmailPage emailPage = new EmailPage();
-            emailPage.CreateDraftEmail(email);
+            EmailPage emailPage = inboxPage.ClickCreateNewMessageButton();
+            email = new DraftEmail(email);
 
             //Send the mail
             emailPage.ClickSendEmailButton();
@@ -106,7 +105,7 @@
             RecycleBinPage recyclePage = navigationMenu.NavigateToRecycle();
 
             //Verify, that the mail presents in ‘Recycle bin’ folder. 
-            recyclePage.CheckDeletedEmail(subject);
+            recyclePage.WaitForDeletedEmail(subject);
         }
 
         [TestMethod]
@@ -123,7 +122,7 @@
             homePage.Login(invalidUser);
 
             //Verify, that red text message appears
-            homePage.CheckValidationMessage(expectedValidationMessage);
+            homePage.WaitForValidationMessage(expectedValidationMessage);
 
             //Login to the mail.ru 
             homePage.Login(user);

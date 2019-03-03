@@ -16,11 +16,8 @@
         public SentPage() : base(SentLbl, "Sent Page")
         {
         }
-        
-        public void WaitForEmailinSentFolder(string subject)
-        {
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForElementIsVisible();
-        }
+
+        public void WaitForEmailinSentFolder(string subject) => new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).WaitForElementIsVisible();
 
         public void DeleteEmail(string subject)
         {
@@ -28,18 +25,11 @@
             DeleteBtn.JsClick();
         }
 
-        public void DragEmailToTrashBin(string subject)
-        {
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).DragAndDrop(recycleBinMenuItem.GetElement());
-        }
+        public void DragEmailToTrashBin(string subject) => new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).DragAndDrop(recycleBinMenuItem.GetElement());
 
-        public void EmailContextClick(string subject)
-        {
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).ContextClick();
-        }
+        public void EmailContextClick(string subject) => new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).ContextClick();
 
-        public bool IsEmailPresentBySubject(string subject) =>
-            new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).Displayed;
+        public bool IsEmailPresentBySubject(string subject) => new BaseElement(By.XPath(String.Format(sentEmailLblTemplate, subject))).Displayed;
 
     }
 }

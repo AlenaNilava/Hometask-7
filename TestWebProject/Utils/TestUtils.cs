@@ -27,9 +27,6 @@
             }
         }
 
-        public static void TakeScreenshot()
-        {
-            Browser.GetDriver().TakeScreenshot().SaveAsFile(GetRandomSubjectNumber() + ".Jpeg", ScreenshotImageFormat.Jpeg);
-        }
+        public static void TakeScreenshot() => Browser.GetDriver().TakeScreenshot().SaveAsFile(GetRandomSubjectNumber() + ".Jpeg", ScreenshotImageFormat.Jpeg);
     }
 }
