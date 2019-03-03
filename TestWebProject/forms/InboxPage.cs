@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.wibdriver;
+    using OpenQA.Selenium;
+    using TestWebProject.Utils;
+
     public class InboxPage : BaseForm
     {
         private static readonly By InboxCreateBtn = By.XPath("(//span[text()='Написать письмо'])[1]");

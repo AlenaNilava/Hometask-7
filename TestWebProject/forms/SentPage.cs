@@ -1,9 +1,8 @@
-﻿using OpenQA.Selenium;
-using System;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.wibdriver;
+    using OpenQA.Selenium;
+    using System;
+    using TestWebProject.Utils;
     class SentPage : BaseForm
     {
         private static readonly By SentLbl = By.XPath("//span[text()='Отправленные']");

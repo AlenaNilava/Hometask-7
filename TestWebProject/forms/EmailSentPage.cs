@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.wibdriver;
+    using OpenQA.Selenium;
+    using TestWebProject.Utils;
+
     class EmailSentPage : BaseForm
     {
         private static readonly By SentLbl = By.XPath("(//div[@class='message-sent__title'])[1]");

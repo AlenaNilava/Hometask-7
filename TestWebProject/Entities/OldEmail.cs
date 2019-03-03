@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestWebProject.Entities
+﻿namespace TestWebProject.Entities
 {
-    public class Email
+    public class OldEmail
     {
         public readonly string address;
         public readonly string subject;
         public readonly string expectedTestBody;
 
-        public Email(string address, string subject, string expectedTestBody)
+        public OldEmail(string address, string subject, string expectedTestBody)
         {
             this.address = address;
             this.subject = subject;

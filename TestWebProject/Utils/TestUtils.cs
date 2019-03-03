@@ -1,11 +1,10 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Drawing.Imaging;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.Extensions;
+    using OpenQA.Selenium.Support.UI;
+    using System;
+
     public class TestUtils
     {
         public static string GetRandomSubjectNumber()
@@ -21,7 +20,7 @@ namespace TestWebProject.wibdriver
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(element));
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.ElementToBeClickable(element));
             }
-            catch (StaleElementReferenceException e)
+            catch (StaleElementReferenceException)
             {
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(element));
                 new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(timeoutSecs)).Until(ExpectedConditions.ElementToBeClickable(element));

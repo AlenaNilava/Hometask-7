@@ -1,15 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class BaseTest
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    public class BaseTest
 	{
-		protected static Browser Browser = Browser.Instance;
+		protected static Browser Browser = Browser.GetInstance();
 
 		[TestInitialize]
 		public virtual void InitTest()
 		{
-			Browser = Browser.Instance;
+			Browser = Browser.GetInstance();
 			Browser.WindowMaximise();
 			Browser.NavigateTo(Configuration.StartUrl);
 		}

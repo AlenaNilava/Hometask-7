@@ -1,30 +1,29 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestWebProject.Entities;
-using TestWebProject.forms;
-using TestWebProject.wibdriver;
-
-namespace TestWebProject
+﻿namespace TestWebProject
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using TestWebProject.Entities.Email;
+    using TestWebProject.Entities.User;
+    using TestWebProject.forms;
+    using TestWebProject.Utils;
+
     [TestClass]
     public class HappyPathTest : BaseTest
     {
         //Test data
         const string login = "testmail.2020";
         const string password = "Asas432111";
-        const string invalidPassword = "asas432111";
         const string address = "elenasinevich91@gmail.com";
         static readonly string subject = $"Test Mail {TestUtils.GetRandomSubjectNumber()}";
         const string expectedTestBody = "Test Text";
 
-        User user = new User(login, password);
-        User invalidUser = new User(login, invalidPassword);
-        Email email = new Email(address, subject, expectedTestBody);
-
-
+        UserCreator usercreator = new ValidUserCreator();
+        Email email = new EmptyEmail(address, subject, expectedTestBody);
 
         [TestMethod]
         public void TestSmokeEmail()
         {
+            User user = usercreator.Create(login, password);
+
             //Login to the mail.ru
             HomePage homePage = new HomePage();
             InboxPage inboxPage = homePage.Login(user);
@@ -34,7 +33,7 @@ namespace TestWebProject
 
             //Create a new mail 
             EmailPage emailPage = inboxPage.ClickCreateNewMessageButton();
-            emailPage.CreateDraftEmail(email);
+            email = new DraftEmail(email);
 
             //Navigate to DraftsPage
             NavigationMenu navigationMenu = new NavigationMenu();
@@ -73,6 +72,8 @@ namespace TestWebProject
         [TestMethod]
         public void TestDeleteEmail()
         {
+            User user = usercreator.Create(login, password);
+
             //Login to the mail.ru
             HomePage homePage = new HomePage();
             homePage.Login(user);
@@ -111,6 +112,10 @@ namespace TestWebProject
         [TestMethod]
         public void TestInvalidLogin()
         {
+            User user = usercreator.Create(login, password);
+            usercreator = new InvalidUserCreator();
+            User invalidUser = usercreator.Create(login, password);
+
             string expectedValidationMessage = "Неверное имя или пароль";
 
             //Login to the mail.ru with invalid password
@@ -125,11 +130,3 @@ namespace TestWebProject
         }
     }
 }
-
-
-
-
-
-
-
-

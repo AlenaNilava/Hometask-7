@@ -1,10 +1,10 @@
-﻿using OpenQA.Selenium;
-using System;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.Entities;
-    using TestWebProject.wibdriver;
+    using OpenQA.Selenium;
+    using System;
+    using TestWebProject.Entities.Email;
+    using TestWebProject.Utils;
+
     public class DraftsPage : BaseForm
     {
         private static readonly By DraftsLbl = By.XPath("//a[@data-mnemo='drafts']");

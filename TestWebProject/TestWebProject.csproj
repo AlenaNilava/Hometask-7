@@ -51,8 +51,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Email.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\OldEmail.cs" />
+    <Compile Include="Entities\Email\DraftEmail.cs" />
+    <Compile Include="Entities\Email\EmailDecorator.cs" />
+    <Compile Include="Entities\Email\EmptyEmail.cs" />
+    <Compile Include="Entities\Email\Email.cs" />
+    <Compile Include="Entities\OldUser.cs" />
+    <Compile Include="Entities\User\InvalidUserCreator.cs" />
+    <Compile Include="Entities\User\InvalidUser.cs" />
+    <Compile Include="Entities\User\User.cs" />
+    <Compile Include="Entities\User\UserCreator.cs" />
+    <Compile Include="Entities\User\ValidUser.cs" />
+    <Compile Include="Entities\User\ValidUserCreator.cs" />
     <Compile Include="forms\DraftsPage.cs" />
     <Compile Include="forms\EmailPage.cs" />
     <Compile Include="forms\EmailSentPage.cs" />

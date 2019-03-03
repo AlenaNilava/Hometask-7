@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.wibdriver;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.PageObjects;
+    using TestWebProject.Utils;
+
     class NavigationMenu : BaseForm
     {
         private static readonly By NavigationLbl = By.XPath("//a[@data-mnemo='drafts']");
@@ -18,10 +18,7 @@ namespace TestWebProject.forms
         [FindsBy(How = How.XPath, Using = "//a[@id='PH_logoutLink']")]
         private IWebElement LogOffBtn;
 
-        public NavigationMenu() : base(NavigationLbl, "Navigation Page")
-        {
-            PageFactory.InitElements(Browser.GetDriver(), this);
-        }
+        public NavigationMenu() : base(NavigationLbl, "Navigation Page") => PageFactory.InitElements(Browser.GetDriver(), this);
 
         public DraftsPage NavigateToDrafts()
         {

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class BaseElement:IWebElement
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Drawing;
+    using System.Threading;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Interactions;
+    using OpenQA.Selenium.Support.UI;
+
+    public class BaseElement:IWebElement
 	{
 		protected string Name;
 		protected By Locator;
@@ -64,10 +63,7 @@ namespace TestWebProject.wibdriver
             }
         }
 
-        public void WaitForNotVisible()
-        {
-            new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Browser.TimeoutForElement)).Until(ExpectedConditions.InvisibilityOfElementLocated(this.Locator));
-        }
+        public void WaitForNotVisible() => new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Browser.TimeoutForElement)).Until(ExpectedConditions.InvisibilityOfElementLocated(this.Locator));
 
         public IWebElement FindElement(By @by)
 		{

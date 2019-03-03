@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.Entities;
-    using TestWebProject.wibdriver;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using OpenQA.Selenium;
+    using TestWebProject.Entities.Email;
+    using TestWebProject.Utils;
+
     public class EmailPage : BaseForm
     {
         private static readonly By EmailToField = By.XPath("//textarea[@data-original-name='To']");

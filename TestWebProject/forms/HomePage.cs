@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.Entities;
-    using TestWebProject.wibdriver;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using OpenQA.Selenium;
+    using TestWebProject.Entities.User;
+    using TestWebProject.Utils;
+
     public class HomePage : BaseForm
     {
         private static readonly By HomeBtn = By.XPath("//*[@id='mailbox:submit']");

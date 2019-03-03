@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class BaseForm
+    using OpenQA.Selenium;
+
+    public class BaseForm
 	{
 		protected By TitleLocator;
 		protected string title;
@@ -12,10 +12,10 @@ namespace TestWebProject.wibdriver
 		{
 			this.TitleLocator = TitleLocator;
 			this.title = titleForm = title;
-			AssertIsOpen();
+			WaitUntilFormIsOpen();
 		}
 
-		public void AssertIsOpen()
+		public void WaitUntilFormIsOpen()
 		{
 			var label = new BaseElement(this.TitleLocator, this.title);
 			label.WaitForElementIsVisible();

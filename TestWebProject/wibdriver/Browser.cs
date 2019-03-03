@@ -1,13 +1,10 @@
-﻿using System;
-using System.Configuration;
-using System.Security.Cryptography.X509Certificates;
-using OpenQA.Selenium;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class Browser
+    using System;
+    using OpenQA.Selenium;
+    public class Browser
 	{
-		private static Browser _currentInstane;
+		private static Browser _currentInstance;
 		private static IWebDriver _driver;
 		public static BrowserFactory.BrowserType CurrentBrowser;
 		public static int ImplWait;
@@ -27,10 +24,15 @@ namespace TestWebProject.wibdriver
 			_browser = Configuration.Browser;
 			Enum.TryParse(_browser, out CurrentBrowser);
 		}
+        
+        public static Browser GetInstance()
+        {
+            if (_currentInstance == null)
+                _currentInstance = new Browser();
+            return _currentInstance;
+        }
 
-		public static Browser Instance => _currentInstane ?? (_currentInstane = new Browser());
-
-		public static void WindowMaximise()
+        public static void WindowMaximise()
 		{
 			_driver.Manage().Window.Maximize();
 		}
@@ -48,7 +50,7 @@ namespace TestWebProject.wibdriver
 		public static void Quit()
 		{
 			_driver.Quit();
-			_currentInstane = null;
+			_currentInstance = null;
 			_driver = null;
 			_browser = null;
 		}

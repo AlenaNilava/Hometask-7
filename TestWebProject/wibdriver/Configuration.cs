@@ -1,8 +1,7 @@
-﻿using System.Configuration;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class Configuration
+    using System.Configuration;
+    public class Configuration
 	{
 		public static string GetEnviromentVar(string var, string defaultValue)
 		{

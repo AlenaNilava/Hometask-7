@@ -1,10 +1,8 @@
-﻿using System;
-using OpenQA.Selenium;
-
-namespace TestWebProject.forms
+﻿namespace TestWebProject.forms
 {
-    using TestWebProject.wibdriver;
-    using OpenQA.Selenium.Interactions;
+    using System;
+    using OpenQA.Selenium;
+    using TestWebProject.Utils;
     public class RecycleBinPage : BaseForm
     {
         private static readonly By RecycleLbl = By.XPath("//div[@data-cache-key='500002_undefined_false']//div[@class='b-informer__text']");

@@ -1,12 +1,11 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
-
-namespace TestWebProject.wibdriver
+﻿namespace TestWebProject.Utils
 {
-	public class BrowserFactory
+    using System;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Firefox;
+    using OpenQA.Selenium.Remote;
+    public class BrowserFactory
 	{
 		public enum BrowserType
 		{
