@@ -1,6 +1,6 @@
 ﻿namespace TestWebProject.Entities.User
 {
-    abstract class UserCreator
+    public abstract class UserCreator
     {
         public UserCreator() // constructor
         {
